@@ -119,17 +119,15 @@ Sau khi bổ sung hai mục vào KNOWLEDGE_BASE, accuracy tăng từ 91,3% lên 
 
 ## 5. Benchmark scaling (production, Locust headless, 100 users, 2 phút)
 
-| Số instance | RPS | p50 (ms) | p95 (ms) | p99 (ms) | Failures |
-|---|---|---|---|---|---|
-| 1 | | | | | |
-| 3 | | | | | |
+| Instance | RPS | p50 (ms) | p95 (ms) | p99 (ms) | Failures |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 60,04 | 190 | 280 | 1.700 | 75/7.776 (0,96%) |
+| 3 | 59,81 | 190 | 230 | 1.700 | 79/7.831 (1,01%) |
 
 **Giải thích kết quả:** Scale có cải thiện p95 không? Nút thắt nằm ở đâu?
 
-...
-
----
-
+Khi tăng từ 1 lên 3 instance, p95 giảm từ 280 ms xuống 230 ms, tương đương 17,9%. Throughput gần như giữ nguyên, từ 60,04 xuống 59,81 req/s, và tỷ lệ lỗi lần lượt là 0,96% và 1,01%. Với 100 user trong lần đo này, scale giúp cải thiện p95 nhưng chưa cho thấy throughput tăng. p99 vẫn khoảng 1.700 ms ở cả hai cấu hình. Điều này phù hợp với việc một số request bị chậm ở bước gọi mock LLM. Hai CSV cho biết độ trễ tổng thể. Để xác định bước nào gây chậm cho từng request, đối chiếu span chat mock-llm-small trong Jaeger.
+[text]()
 ## 6. Kết luận
 
 - 3 điều bạn học được về benchmark & observability:
