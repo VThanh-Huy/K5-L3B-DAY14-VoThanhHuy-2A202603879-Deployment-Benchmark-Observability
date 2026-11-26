@@ -112,6 +112,39 @@ Redis từ Amazon ECR Public, tải Qdrant từ `mirror.gcr.io`, rồi gắn l�
 các tag theo cấu hình Compose. Tôi dùng lại image agent đã build ở
 Exercise 2.3 và khởi động stack với `--no-build --pull never`.
 
+## Part 3 — Cloud Deployment
+
+### Exercise 3.2 — Deploy lên Render
+
+Tôi triển khai agent trong `06-lab-complete/` bằng Blueprint
+`06-lab-complete/render.yaml`. Web service `day14-agent` chạy FastAPI
+trong Docker và kết nối với `day14-redis` qua biến `REDIS_URL`.
+
+- **URL public** — https://TEN-SERVICE.onrender.com
+- **Lệnh kiểm tra và ảnh bằng chứng** — [DEPLOYMENT.md](DEPLOYMENT.md)
+
+| Phép thử trên URL public | Kết quả thực tế |
+|---|---|
+| `GET /health` | `200 OK` |
+| `GET /ready` | `200 OK` |
+| `POST /ask` thiếu API key | `401 Unauthorized` |
+| `POST /ask` với API key hợp lệ | `200 OK` |
+
+### So sánh cấu hình Railway và Render
+
+| Nội dung | `railway.toml` mẫu của lab | `render.yaml` tôi dùng |
+|---|---|---|
+| Build và khởi động | Chọn `NIXPACKS` và khai báo lệnh Uvicorn dùng `$PORT` | Chọn runtime Docker và dùng lệnh `CMD` trong Dockerfile để đọc `PORT` |
+| Health check | `healthcheckPath = "/health"` | `healthCheckPath: /health` |
+| Redis và API key | Các biến môi trường được cấu hình trên nền tảng | Blueprint tạo Key Value, lấy URL nội bộ cho `REDIS_URL` và sinh `AGENT_API_KEY` |
+
+### Exercise 3.3 — Luồng CI/CD trên Cloud Run
+
+1. `cloudbuild.yaml` cài dependencies và chạy test bằng `pytest`.
+2. Cloud Build tạo Docker image và gắn hai tag là `$COMMIT_SHA` và `latest`.
+3. Pipeline push image lên registry rồi dùng `gcloud run deploy` để triển khai image theo `$COMMIT_SHA`.
+4. `service.yaml` mô tả cổng container, giới hạn tài nguyên, cấu hình scale và các probe `/health`, `/ready`.
+
 ## Part 4 — API Security
 
 ### Exercise 4.1 — Xác thực bằng API key
