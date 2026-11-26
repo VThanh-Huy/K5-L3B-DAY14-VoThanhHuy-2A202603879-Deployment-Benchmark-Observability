@@ -120,7 +120,7 @@ Tôi triển khai agent trong `06-lab-complete/` bằng Blueprint
 `06-lab-complete/render.yaml`. Web service `day14-agent` chạy FastAPI
 trong Docker và kết nối với `day14-redis` qua biến `REDIS_URL`.
 
-- **URL public** — https://TEN-SERVICE.onrender.com
+- **URL public** - https://day14-agent-nrj2.onrender.com
 - **Lệnh kiểm tra và ảnh bằng chứng** — [DEPLOYMENT.md](DEPLOYMENT.md)
 
 | Phép thử trên URL public | Kết quả thực tế |

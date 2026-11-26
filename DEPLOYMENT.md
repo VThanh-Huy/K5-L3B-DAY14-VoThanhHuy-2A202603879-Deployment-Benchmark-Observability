@@ -2,7 +2,7 @@
 
 ## URL và nền tảng
 
-- **URL public** — https://TEN-SERVICE.onrender.com
+- **URL public** — https://day14-agent-nrj2.onrender.com
 - **Nền tảng** — Render
 - **Thư mục deploy** — `06-lab-complete/`
 - **Blueprint** — `06-lab-complete/render.yaml`
@@ -15,7 +15,7 @@ Chạy trên Bash. Nhập API key khi terminal hỏi để kiểm tra request
 có xác thực.
 
 ```bash
-BASE="https://TEN-SERVICE.onrender.com"
+BASE="https://day14-agent-nrj2.onrender.com"
 read -r -s -p "API key trên Render: " AGENT_API_KEY
 printf '\n'
 
